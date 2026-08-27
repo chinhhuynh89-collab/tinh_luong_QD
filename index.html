@@ -1,0 +1,862 @@
+<!--
+  © 2026 Huỳnh Công Chính — Trường Quân sự Quân đoàn 34
+  Liên hệ: 0978900921
+  Giấy phép: Được phép sử dụng, chia sẻ nguyên trạng cho mục đích tham khảo.
+  KHÔNG được sửa đổi nội dung, mã nguồn, hoặc gỡ bỏ thông tin bản quyền này.
+  Mọi hình thức sao chép để phân phối dưới tên tác giả khác đều bị nghiêm cấm.
+-->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="author" content="Huỳnh Công Chính - Trường Quân sự Quân đoàn 34">
+<meta name="copyright" content="© 2026 Huỳnh Công Chính. All rights reserved. Liên hệ: 0978900921">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Tính Lương Sĩ Quan Quân Đội</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --olive:#33402A;
+    --olive-deep:#20281A;
+    --khaki:#E4DBB8;
+    --khaki-dark:#CFC393;
+    --brass:#B4903B;
+    --red-seal:#9E2B25;
+    --ink:#2B2A20;
+    --cream:#F4EFDC;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--olive-deep);
+    background-image:
+      radial-gradient(circle at 15% 10%, rgba(255,255,255,0.03), transparent 45%),
+      radial-gradient(circle at 85% 90%, rgba(255,255,255,0.03), transparent 45%);
+    font-family:'Be Vietnam Pro',sans-serif;
+    color:var(--cream);
+    min-height:100vh;
+    padding:14px;
+  }
+  .wrap{ max-width:480px; margin:0 auto; }
+
+  header{ text-align:center; padding:10px 6px 4px; }
+  header .eyebrow{
+    font-family:'Barlow Condensed',sans-serif;
+    letter-spacing:3px;
+    font-size:0.75rem;
+    color:var(--brass);
+    text-transform:uppercase;
+  }
+  header h1{
+    font-family:'Barlow Condensed',sans-serif;
+    font-weight:800;
+    letter-spacing:1px;
+    font-size:1.9rem;
+    margin:4px 0 6px;
+    text-transform:uppercase;
+    color:var(--cream);
+  }
+  header .note{
+    font-size:0.78rem;
+    color:#C9C2A0;
+    line-height:1.5;
+  }
+  .byline{
+    text-align:center;
+    font-size:0.72rem;
+    color:#8a7c4d;
+    letter-spacing:0.5px;
+    margin:6px 0 16px;
+    padding-bottom:12px;
+    border-bottom:1px dotted rgba(244,239,220,0.2);
+  }
+  .byline b{ color:var(--brass); font-weight:600; }
+
+  /* mode switch */
+  .mode-switch{
+    display:flex;
+    gap:6px;
+    margin-bottom:16px;
+    background:rgba(0,0,0,0.2);
+    padding:5px;
+    border-radius:8px;
+  }
+  .mode-btn{
+    flex:1;
+    text-align:center;
+    padding:10px 4px;
+    border-radius:6px;
+    font-family:'Barlow Condensed',sans-serif;
+    font-weight:700;
+    letter-spacing:0.5px;
+    font-size:0.9rem;
+    text-transform:uppercase;
+    cursor:pointer;
+    color:#C9C2A0;
+  }
+  .mode-btn.active{
+    background:var(--brass);
+    color:var(--olive-deep);
+  }
+
+  .card{
+    background:var(--khaki);
+    color:var(--ink);
+    border-radius:6px;
+    padding:16px;
+    margin-bottom:14px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.35);
+    position:relative;
+    border:1px solid rgba(0,0,0,0.15);
+  }
+  .card::before{
+    content:'';
+    position:absolute; left:0; top:0; bottom:0;
+    width:6px;
+    background:var(--brass);
+    border-radius:6px 0 0 6px;
+  }
+  .card-title{
+    font-family:'Barlow Condensed',sans-serif;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    font-size:1.05rem;
+    margin:0 0 10px 6px;
+    color:var(--olive);
+  }
+
+  /* rank grid */
+  .rank-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:6px;
+    margin-left:4px;
+  }
+  .rank-grid.cols-2{ grid-template-columns:1fr 1fr; }
+  .rank-chip{
+    background:var(--cream);
+    border:1.5px solid var(--khaki-dark);
+    border-radius:5px;
+    padding:8px 4px;
+    text-align:center;
+    cursor:pointer;
+    font-size:0.78rem;
+    font-weight:600;
+    line-height:1.25;
+  }
+  .rank-chip .hs{
+    display:block;
+    font-family:'Barlow Condensed',sans-serif;
+    font-size:0.72rem;
+    color:#8a7c4d;
+    margin-top:2px;
+  }
+  .rank-chip.selected{
+    background:var(--olive);
+    color:var(--cream);
+    border-color:var(--olive);
+  }
+  .rank-chip.selected .hs{ color:var(--brass); }
+  .rank-group-label{
+    font-family:'Barlow Condensed',sans-serif;
+    font-size:0.72rem;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    color:#8a7c4d;
+    margin:10px 0 4px 6px;
+  }
+  .rank-group-label:first-child{ margin-top:0; }
+
+  /* base salary toggle */
+  .toggle-row{
+    display:flex;
+    gap:8px;
+    margin-left:4px;
+  }
+  .toggle-btn{
+    flex:1;
+    background:var(--cream);
+    border:1.5px solid var(--khaki-dark);
+    border-radius:6px;
+    padding:10px 6px;
+    text-align:center;
+    cursor:pointer;
+    font-size:0.8rem;
+    font-weight:600;
+  }
+  .toggle-btn .amt{
+    display:block;
+    font-family:'Barlow Condensed',sans-serif;
+    font-size:1.1rem;
+    font-weight:700;
+  }
+  .toggle-btn.selected{
+    background:var(--olive);
+    color:var(--cream);
+    border-color:var(--olive);
+  }
+  .custom-base{
+    margin:10px 4px 0;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:0.8rem;
+  }
+  .custom-base input{
+    flex:1;
+    padding:8px;
+    border-radius:5px;
+    border:1.5px solid var(--khaki-dark);
+    font-family:'Be Vietnam Pro',sans-serif;
+    font-size:0.85rem;
+    background:var(--cream);
+    color:var(--ink);
+  }
+
+  /* field rows */
+  .field-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin:0 4px 12px;
+  }
+  .field-row:last-child{ margin-bottom:0; }
+  .field-label{
+    font-size:0.85rem;
+    font-weight:600;
+    line-height:1.3;
+  }
+  .field-label .sub{
+    display:block;
+    font-weight:400;
+    font-size:0.72rem;
+    color:#7c704a;
+    margin-top:2px;
+  }
+  .field-input{
+    display:flex;
+    align-items:center;
+    gap:4px;
+  }
+  .field-input input{
+    width:72px;
+    padding:8px;
+    border-radius:5px;
+    border:1.5px solid var(--khaki-dark);
+    font-family:'Be Vietnam Pro',sans-serif;
+    font-weight:600;
+    font-size:0.9rem;
+    background:var(--cream);
+    color:var(--ink);
+    text-align:right;
+  }
+  .field-input .unit{
+    font-size:0.78rem;
+    color:#7c704a;
+    min-width:16px;
+  }
+  .auto-badge{
+    font-family:'Barlow Condensed',sans-serif;
+    font-size:0.68rem;
+    background:var(--olive);
+    color:var(--brass);
+    padding:2px 6px;
+    border-radius:4px;
+    letter-spacing:0.5px;
+  }
+
+  .checkbox-row{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin:0 4px 10px;
+    font-size:0.85rem;
+    font-weight:600;
+  }
+  .checkbox-row:last-child{ margin-bottom:0; }
+  .checkbox-row input{ width:18px; height:18px; flex-shrink:0; }
+  .checkbox-row .sub{
+    display:block;
+    font-weight:400;
+    font-size:0.72rem;
+    color:#7c704a;
+    margin-top:2px;
+  }
+
+  /* ledger / result */
+  .ledger{
+    background:var(--olive);
+    border-radius:6px;
+    padding:16px 18px;
+    margin-bottom:14px;
+    position:relative;
+    overflow:hidden;
+  }
+  .ledger-title{
+    font-family:'Barlow Condensed',sans-serif;
+    text-transform:uppercase;
+    letter-spacing:1.5px;
+    font-size:0.85rem;
+    color:var(--brass);
+    margin-bottom:10px;
+  }
+  .ledger-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    font-size:0.82rem;
+    padding:6px 0;
+    border-bottom:1px dotted rgba(244,239,220,0.25);
+  }
+  .ledger-row .lbl{ color:#DCD5B8; }
+  .ledger-row .val{ font-weight:600; }
+  .ledger-row.deduct .val{ color:#E8A6A0; }
+  .ledger-total{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:14px;
+    padding-top:12px;
+  }
+  .ledger-total .lbl{
+    font-family:'Barlow Condensed',sans-serif;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    font-size:0.95rem;
+  }
+  .ledger-total .val{
+    font-family:'Barlow Condensed',sans-serif;
+    font-weight:800;
+    font-size:1.7rem;
+    color:var(--cream);
+  }
+
+  .seal{
+    position:absolute;
+    right:-18px; top:-18px;
+    width:90px; height:90px;
+    border-radius:50%;
+    border:3px solid var(--red-seal);
+    color:var(--red-seal);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    font-family:'Barlow Condensed',sans-serif;
+    font-weight:800;
+    font-size:0.62rem;
+    letter-spacing:0.5px;
+    transform:rotate(18deg);
+    opacity:0.55;
+    line-height:1.15;
+    padding:6px;
+  }
+
+  .disclaimer{
+    font-size:0.72rem;
+    color:#B8AF8E;
+    line-height:1.5;
+    padding:0 6px;
+    margin-top:6px;
+  }
+  .disclaimer b{ color:var(--brass); }
+
+  .copyright-box{
+    margin-top:18px;
+    padding:14px 16px;
+    background:rgba(0,0,0,0.22);
+    border:1px solid rgba(180,144,59,0.4);
+    border-radius:6px;
+    text-align:center;
+  }
+  .copyright-box .cr-title{
+    font-family:'Barlow Condensed',sans-serif;
+    text-transform:uppercase;
+    letter-spacing:1.5px;
+    font-size:0.8rem;
+    color:var(--brass);
+    margin-bottom:6px;
+  }
+  .copyright-box .cr-name{
+    font-weight:700;
+    font-size:0.9rem;
+    color:var(--cream);
+  }
+  .copyright-box .cr-org{
+    font-size:0.78rem;
+    color:#C9C2A0;
+    margin-top:2px;
+  }
+  .copyright-box .cr-phone{
+    font-family:'Barlow Condensed',sans-serif;
+    font-size:1rem;
+    font-weight:700;
+    color:var(--brass);
+    margin-top:8px;
+    letter-spacing:1px;
+  }
+  .copyright-box .cr-license{
+    font-size:0.7rem;
+    color:#9a927a;
+    line-height:1.5;
+    margin-top:8px;
+    padding-top:8px;
+    border-top:1px dotted rgba(244,239,220,0.15);
+  }
+
+  .panel{ display:none; }
+  .panel.active{ display:block; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">Quân đội Nhân dân Việt Nam</div>
+    <h1>Tính Lương Quân Nhân</h1>
+    <div class="note">Hệ số lương theo Nghị định 204/2004/NĐ-CP · Mức lương cơ sở theo Nghị định 161/2026/NĐ-CP · Phụ cấp công vụ theo Nghị định 34/2012/NĐ-CP</div>
+  </header>
+  <div class="byline">Tác giả: <b>Huỳnh Công Chính</b> — Trường Quân sự Quân đoàn 34</div>
+
+  <div class="mode-switch">
+    <div class="mode-btn active" data-mode="siquan">Sĩ quan</div>
+    <div class="mode-btn" data-mode="hsq">Hạ sĩ quan / Chiến sĩ</div>
+  </div>
+
+  <!-- ============ PANEL: SI QUAN ============ -->
+  <div class="panel active" id="panel-siquan">
+
+    <div class="card">
+      <div class="card-title">1. Cấp bậc quân hàm</div>
+      <div id="rank-groups"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">2. Mức lương cơ sở</div>
+      <div class="toggle-row" id="base-toggle">
+        <div class="toggle-btn" data-val="2340000">
+          Đến 30/6/2026
+          <span class="amt">2.340.000đ</span>
+        </div>
+        <div class="toggle-btn selected" data-val="2530000">
+          Từ 01/7/2026
+          <span class="amt">2.530.000đ</span>
+        </div>
+      </div>
+      <div class="custom-base">
+        <span>Hoặc tự nhập:</span>
+        <input type="number" id="custom-base-input" placeholder="VD: 2530000">
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">3. Phụ cấp thâm niên nghề</div>
+      <div class="field-row">
+        <div class="field-label">Số năm công tác trong quân đội
+          <span class="sub">Đủ 5 năm: 5%, mỗi năm sau +1%</span>
+        </div>
+        <div class="field-input">
+          <input type="number" id="years-service" value="5" min="0">
+          <span class="unit">năm</span>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field-label">Tỷ lệ phụ cấp thâm niên <span class="auto-badge">TỰ ĐỘNG</span></div>
+        <div class="field-input">
+          <span id="tham-nien-pct" style="font-weight:700;">0%</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">4. Phụ cấp khác (tự nhập nếu có)</div>
+      <div class="field-row">
+        <div class="field-label">Phụ cấp chức vụ lãnh đạo
+          <span class="sub">Hệ số theo chức danh chỉ huy — hỏi phòng tài chính đơn vị</span>
+        </div>
+        <div class="field-input">
+          <input type="number" id="pc-chucvu-hs" value="0" step="0.05">
+          <span class="unit">hs</span>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field-label">Phụ cấp khu vực
+          <span class="sub">% theo địa bàn đóng quân</span>
+        </div>
+        <div class="field-input">
+          <input type="number" id="pc-khuvuc" value="0" step="1">
+          <span class="unit">%</span>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field-label">Phụ cấp đặc thù / ưu đãi nghề
+          <span class="sub">% theo binh chủng, ngành</span>
+        </div>
+        <div class="field-input">
+          <input type="number" id="pc-dacthu" value="0" step="1">
+          <span class="unit">%</span>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field-label">Phụ cấp / trợ cấp khác
+          <span class="sub">Số tiền cố định (nếu có)</span>
+        </div>
+        <div class="field-input">
+          <input type="number" id="pc-khac" value="0" step="10000">
+          <span class="unit">đ</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">5. Phụ cấp công vụ &amp; Khấu trừ</div>
+      <div class="checkbox-row">
+        <input type="checkbox" id="pc-congvu">
+        <label for="pc-congvu">Phụ cấp công vụ 25%
+          <span class="sub">Tính trên (Lương cấp bậc + Phụ cấp chức vụ), theo NĐ 34/2012/NĐ-CP. Không tính trên phụ cấp thâm niên.</span>
+        </label>
+      </div>
+      <div class="checkbox-row">
+        <input type="checkbox" id="tru-bhxh">
+        <label for="tru-bhxh">Trừ BHXH + BHYT bắt buộc (9,5%)
+          <span class="sub">Tính trên (Lương cấp bậc + Phụ cấp chức vụ + Phụ cấp thâm niên nghề)</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="ledger">
+      <div class="seal">TỔNG<br>LƯƠNG<br>THÁNG</div>
+      <div class="ledger-title">Bảng tính lương tháng — Sĩ quan</div>
+      <div class="ledger-row"><span class="lbl">Lương theo cấp bậc quân hàm</span><span class="val" id="r-luongcapbac">0đ</span></div>
+      <div class="ledger-row"><span class="lbl">Phụ cấp thâm niên nghề</span><span class="val" id="r-thamnien">0đ</span></div>
+      <div class="ledger-row"><span class="lbl">Phụ cấp chức vụ lãnh đạo</span><span class="val" id="r-chucvu">0đ</span></div>
+      <div class="ledger-row"><span class="lbl">Phụ cấp công vụ (25%)</span><span class="val" id="r-congvu">0đ</span></div>
+      <div class="ledger-row"><span class="lbl">Phụ cấp khu vực</span><span class="val" id="r-khuvuc">0đ</span></div>
+      <div class="ledger-row"><span class="lbl">Phụ cấp đặc thù / ưu đãi</span><span class="val" id="r-dacthu">0đ</span></div>
+      <div class="ledger-row"><span class="lbl">Phụ cấp / trợ cấp khác</span><span class="val" id="r-khac">0đ</span></div>
+      <div class="ledger-row deduct"><span class="lbl">Trừ BHXH + BHYT (9,5%)</span><span class="val" id="r-bhxh">- 0đ</span></div>
+      <div class="ledger-total">
+        <span class="lbl">Thực lĩnh</span>
+        <span class="val" id="r-total">0đ</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ============ PANEL: HA SI QUAN / CHIEN SI ============ -->
+  <div class="panel" id="panel-hsq">
+
+    <div class="card">
+      <div class="card-title">1. Cấp bậc</div>
+      <div class="rank-grid cols-2" id="hsq-rank-grid"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">2. Mức lương cơ sở</div>
+      <div class="toggle-row" id="hsq-base-toggle">
+        <div class="toggle-btn" data-val="2340000">
+          Đến 30/6/2026
+          <span class="amt">2.340.000đ</span>
+        </div>
+        <div class="toggle-btn selected" data-val="2530000">
+          Từ 01/7/2026
+          <span class="amt">2.530.000đ</span>
+        </div>
+      </div>
+      <div class="custom-base">
+        <span>Hoặc tự nhập:</span>
+        <input type="number" id="hsq-custom-base-input" placeholder="VD: 2530000">
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">3. Phụ cấp thêm (tự nhập nếu có)</div>
+      <div class="field-row">
+        <div class="field-label">Phụ cấp chức vụ (tiểu đội trưởng, khẩu đội trưởng…)
+          <span class="sub">Hệ số theo chức danh — hỏi đơn vị</span>
+        </div>
+        <div class="field-input">
+          <input type="number" id="hsq-pc-chucvu-hs" value="0" step="0.05">
+          <span class="unit">hs</span>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field-label">Phụ cấp khu vực
+          <span class="sub">% theo địa bàn đóng quân</span>
+        </div>
+        <div class="field-input">
+          <input type="number" id="hsq-pc-khuvuc" value="0" step="1">
+          <span class="unit">%</span>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field-label">Phụ cấp đặc thù (đảo, biên giới, độc hại…)
+          <span class="sub">% theo tính chất nhiệm vụ</span>
+        </div>
+        <div class="field-input">
+          <input type="number" id="hsq-pc-dacthu" value="0" step="1">
+          <span class="unit">%</span>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field-label">Phụ cấp / trợ cấp khác
+          <span class="sub">Số tiền cố định (nếu có)</span>
+        </div>
+        <div class="field-input">
+          <input type="number" id="hsq-pc-khac" value="0" step="10000">
+          <span class="unit">đ</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="ledger">
+      <div class="seal">TỔNG<br>PHỤ CẤP<br>THÁNG</div>
+      <div class="ledger-title">Bảng tính phụ cấp — Hạ sĩ quan, Chiến sĩ</div>
+      <div class="ledger-row"><span class="lbl">Phụ cấp quân hàm</span><span class="val" id="hsq-r-quanham">0đ</span></div>
+      <div class="ledger-row"><span class="lbl">Phụ cấp chức vụ</span><span class="val" id="hsq-r-chucvu">0đ</span></div>
+      <div class="ledger-row"><span class="lbl">Phụ cấp khu vực</span><span class="val" id="hsq-r-khuvuc">0đ</span></div>
+      <div class="ledger-row"><span class="lbl">Phụ cấp đặc thù</span><span class="val" id="hsq-r-dacthu">0đ</span></div>
+      <div class="ledger-row"><span class="lbl">Phụ cấp / trợ cấp khác</span><span class="val" id="hsq-r-khac">0đ</span></div>
+      <div class="ledger-total">
+        <span class="lbl">Tổng cộng</span>
+        <span class="val" id="hsq-r-total">0đ</span>
+      </div>
+    </div>
+
+    <div class="disclaimer">
+      <b>Lưu ý:</b> Hạ sĩ quan, binh sĩ phục vụ tại ngũ hưởng <b>phụ cấp quân hàm</b> (không phải "lương" theo hệ số như sĩ quan), theo Luật Nghĩa vụ quân sự và Nghị định 27/2016/NĐ-CP. Ngoài phụ cấp quân hàm, còn có thể có thêm tiền ăn, trợ cấp một lần khi nhập/xuất ngũ… những khoản này không tính trong bảng trên.
+    </div>
+
+  </div>
+
+  <div class="disclaimer">
+    <b>Lưu ý chung:</b> Hệ số lương theo cấp bậc quân hàm và mức lương cơ sở lấy theo văn bản pháp luật hiện hành. Các khoản phụ cấp chức vụ, khu vực, đặc thù, trách nhiệm khác nhau theo từng đơn vị, chức danh và địa bàn — vui lòng đối chiếu với phòng tài chính đơn vị để có số liệu chính xác nhất. Công cụ này chỉ mang tính chất tham khảo.
+  </div>
+
+  <div class="copyright-box">
+    <div class="cr-title">Bản quyền</div>
+    <div class="cr-name">© 2026 Huỳnh Công Chính</div>
+    <div class="cr-org">Trường Quân sự Quân đoàn 34</div>
+    <div class="cr-phone">📞 0978900921</div>
+    <div class="cr-license">Được phép sử dụng và chia sẻ nguyên trạng cho mục đích tham khảo.<br>Không được sửa đổi nội dung, mã nguồn hoặc gỡ bỏ thông tin bản quyền này.</div>
+  </div>
+
+</div>
+
+<script>
+const RANKS = [
+  { group:'Cấp Tướng', items:[
+    { name:'Đại tướng', hs:10.4 },
+    { name:'Thượng tướng', hs:9.8 },
+    { name:'Trung tướng', hs:9.2 },
+    { name:'Thiếu tướng', hs:8.6 },
+  ]},
+  { group:'Cấp Tá', items:[
+    { name:'Đại tá', hs:8.0 },
+    { name:'Thượng tá', hs:7.3 },
+    { name:'Trung tá', hs:6.6 },
+    { name:'Thiếu tá', hs:6.0 },
+  ]},
+  { group:'Cấp Úy', items:[
+    { name:'Đại úy', hs:5.4 },
+    { name:'Thượng úy', hs:5.0 },
+    { name:'Trung úy', hs:4.6 },
+    { name:'Thiếu úy', hs:4.2 },
+  ]},
+];
+
+const HSQ_RANKS = [
+  { name:'Thượng sĩ', hs:0.70 },
+  { name:'Trung sĩ', hs:0.60 },
+  { name:'Hạ sĩ', hs:0.50 },
+  { name:'Binh nhất', hs:0.45 },
+  { name:'Binh nhì', hs:0.40 },
+];
+
+let state = { hs: 6.0, base: 2530000 };
+let hsqState = { hs: 0.50, base: 2530000 };
+
+function fmt(n){
+  return Math.round(n).toLocaleString('vi-VN') + 'đ';
+}
+
+/* ---------- MODE SWITCH ---------- */
+document.querySelectorAll('.mode-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const mode = btn.dataset.mode;
+    document.getElementById('panel-siquan').classList.toggle('active', mode==='siquan');
+    document.getElementById('panel-hsq').classList.toggle('active', mode==='hsq');
+  });
+});
+
+/* ---------- SI QUAN ---------- */
+function renderRanks(){
+  const wrap = document.getElementById('rank-groups');
+  wrap.innerHTML = '';
+  RANKS.forEach(g=>{
+    const label = document.createElement('div');
+    label.className = 'rank-group-label';
+    label.textContent = g.group;
+    wrap.appendChild(label);
+    const grid = document.createElement('div');
+    grid.className = 'rank-grid';
+    g.items.forEach(r=>{
+      const chip = document.createElement('div');
+      chip.className = 'rank-chip' + (r.hs===state.hs ? ' selected':'');
+      chip.innerHTML = `${r.name}<span class="hs">hs ${r.hs}</span>`;
+      chip.addEventListener('click', ()=>{
+        state.hs = r.hs;
+        renderRanks();
+        calculate();
+      });
+      grid.appendChild(chip);
+    });
+    wrap.appendChild(grid);
+  });
+}
+
+document.getElementById('base-toggle').addEventListener('click', (e)=>{
+  const btn = e.target.closest('.toggle-btn');
+  if (!btn) return;
+  document.querySelectorAll('#base-toggle .toggle-btn').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+  state.base = parseInt(btn.dataset.val,10);
+  document.getElementById('custom-base-input').value = '';
+  calculate();
+});
+
+document.getElementById('custom-base-input').addEventListener('input', (e)=>{
+  const v = parseInt(e.target.value,10);
+  if (v>0){
+    document.querySelectorAll('#base-toggle .toggle-btn').forEach(b=>b.classList.remove('selected'));
+    state.base = v;
+    calculate();
+  }
+});
+
+function thamNienPct(years){
+  if (years < 5) return 0;
+  return 5 + (years - 5) * 1;
+}
+
+function calculate(){
+  const years = parseFloat(document.getElementById('years-service').value) || 0;
+  const tnPct = thamNienPct(years);
+  document.getElementById('tham-nien-pct').textContent = tnPct + '%';
+
+  const luongCapBac = state.hs * state.base;
+
+  const hsChucVu = parseFloat(document.getElementById('pc-chucvu-hs').value) || 0;
+  const pcChucVu = hsChucVu * state.base;
+
+  const thamNien = (luongCapBac + pcChucVu) * (tnPct/100);
+
+  const congVuOn = document.getElementById('pc-congvu').checked;
+  const pcCongVu = congVuOn ? (luongCapBac + pcChucVu) * 0.25 : 0;
+
+  const khuVucPct = parseFloat(document.getElementById('pc-khuvuc').value) || 0;
+  const pcKhuVuc = luongCapBac * (khuVucPct/100);
+
+  const dacThuPct = parseFloat(document.getElementById('pc-dacthu').value) || 0;
+  const pcDacThu = luongCapBac * (dacThuPct/100);
+
+  const pcKhac = parseFloat(document.getElementById('pc-khac').value) || 0;
+
+  const truBHXH = document.getElementById('tru-bhxh').checked;
+  const bhxhAmount = truBHXH ? (luongCapBac + pcChucVu + thamNien) * 0.095 : 0;
+
+  const total = luongCapBac + thamNien + pcChucVu + pcCongVu + pcKhuVuc + pcDacThu + pcKhac - bhxhAmount;
+
+  document.getElementById('r-luongcapbac').textContent = fmt(luongCapBac);
+  document.getElementById('r-thamnien').textContent = fmt(thamNien);
+  document.getElementById('r-chucvu').textContent = fmt(pcChucVu);
+  document.getElementById('r-congvu').textContent = fmt(pcCongVu);
+  document.getElementById('r-khuvuc').textContent = fmt(pcKhuVuc);
+  document.getElementById('r-dacthu').textContent = fmt(pcDacThu);
+  document.getElementById('r-khac').textContent = fmt(pcKhac);
+  document.getElementById('r-bhxh').textContent = '- ' + fmt(bhxhAmount);
+  document.getElementById('r-total').textContent = fmt(total);
+}
+
+['years-service','pc-chucvu-hs','pc-khuvuc','pc-dacthu','pc-khac'].forEach(id=>{
+  document.getElementById(id).addEventListener('input', calculate);
+});
+document.getElementById('tru-bhxh').addEventListener('change', calculate);
+document.getElementById('pc-congvu').addEventListener('change', calculate);
+
+/* ---------- HA SI QUAN / CHIEN SI ---------- */
+function renderHsqRanks(){
+  const wrap = document.getElementById('hsq-rank-grid');
+  wrap.innerHTML = '';
+  HSQ_RANKS.forEach(r=>{
+    const chip = document.createElement('div');
+    chip.className = 'rank-chip' + (r.hs===hsqState.hs ? ' selected':'');
+    chip.innerHTML = `${r.name}<span class="hs">hs ${r.hs}</span>`;
+    chip.addEventListener('click', ()=>{
+      hsqState.hs = r.hs;
+      renderHsqRanks();
+      calculateHsq();
+    });
+    wrap.appendChild(chip);
+  });
+}
+
+document.getElementById('hsq-base-toggle').addEventListener('click', (e)=>{
+  const btn = e.target.closest('.toggle-btn');
+  if (!btn) return;
+  document.querySelectorAll('#hsq-base-toggle .toggle-btn').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+  hsqState.base = parseInt(btn.dataset.val,10);
+  document.getElementById('hsq-custom-base-input').value = '';
+  calculateHsq();
+});
+
+document.getElementById('hsq-custom-base-input').addEventListener('input', (e)=>{
+  const v = parseInt(e.target.value,10);
+  if (v>0){
+    document.querySelectorAll('#hsq-base-toggle .toggle-btn').forEach(b=>b.classList.remove('selected'));
+    hsqState.base = v;
+    calculateHsq();
+  }
+});
+
+function calculateHsq(){
+  const pcQuanHam = hsqState.hs * hsqState.base;
+
+  const hsChucVu = parseFloat(document.getElementById('hsq-pc-chucvu-hs').value) || 0;
+  const pcChucVu = hsChucVu * hsqState.base;
+
+  const khuVucPct = parseFloat(document.getElementById('hsq-pc-khuvuc').value) || 0;
+  const pcKhuVuc = pcQuanHam * (khuVucPct/100);
+
+  const dacThuPct = parseFloat(document.getElementById('hsq-pc-dacthu').value) || 0;
+  const pcDacThu = pcQuanHam * (dacThuPct/100);
+
+  const pcKhac = parseFloat(document.getElementById('hsq-pc-khac').value) || 0;
+
+  const total = pcQuanHam + pcChucVu + pcKhuVuc + pcDacThu + pcKhac;
+
+  document.getElementById('hsq-r-quanham').textContent = fmt(pcQuanHam);
+  document.getElementById('hsq-r-chucvu').textContent = fmt(pcChucVu);
+  document.getElementById('hsq-r-khuvuc').textContent = fmt(pcKhuVuc);
+  document.getElementById('hsq-r-dacthu').textContent = fmt(pcDacThu);
+  document.getElementById('hsq-r-khac').textContent = fmt(pcKhac);
+  document.getElementById('hsq-r-total').textContent = fmt(total);
+}
+
+['hsq-pc-chucvu-hs','hsq-pc-khuvuc','hsq-pc-dacthu','hsq-pc-khac'].forEach(id=>{
+  document.getElementById(id).addEventListener('input', calculateHsq);
+});
+
+renderRanks();
+calculate();
+renderHsqRanks();
+calculateHsq();
+</script>
+</body>
+</html>
