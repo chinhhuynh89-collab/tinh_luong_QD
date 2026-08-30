@@ -1,7 +1,7 @@
 {
-  "name": "Tính Lương Quân Nhân",
-  "short_name": "Tính Lương QĐ",
-  "description": "Ứng dụng tính lương Sĩ quan, QNCN, CCQP, Hạ sĩ quan-Chiến sĩ QĐND Việt Nam",
+  "name": "Trợ Lý Quân Nhân",
+  "short_name": "Trợ Lý QN",
+  "description": "Ứng dụng hỗ trợ quân nhân: tính lương Sĩ quan/QNCN/CCQP/Hạ sĩ quan, lương hưu dự kiến, tra cứu, tiện ích",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
